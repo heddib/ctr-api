@@ -145,7 +145,7 @@ class AuthController extends Controller
      *    ),
      *     @OA\Response(
      *        response="200",
-     *        description="Inscris un nouvel utilisateur et retourne un token en cas de succès.",
+     *        description="Retourne un token en cas de succès.",
      *        @OA\MediaType(
      *            mediaType="application/json",
      *        )
