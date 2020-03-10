@@ -117,6 +117,7 @@ class AuthController extends Controller
      *     @OA\Parameter(
      *        name="email",
      *        in="query",
+     *        description="Email de test : test@test.fr",
      *        required=true,
      *        @OA\Schema(
      *           type="string"
@@ -126,6 +127,7 @@ class AuthController extends Controller
      *     @OA\Parameter(
      *        name="password",
      *        in="query",
+     *        description="Mot de passe de test : test",
      *        required=true,
      *        @OA\Schema(
      *           type="string"
@@ -136,6 +138,7 @@ class AuthController extends Controller
      *        name="client_name",
      *        in="query",
      *        required=true,
+     *        description="Client valide : ctr-api",
      *        @OA\Schema(
      *           type="string"
      *        )
