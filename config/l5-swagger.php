@@ -8,7 +8,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'title' => 'API Documatation',
+        'title' => 'API Documentation',
     ],
 
     'routes' => [
