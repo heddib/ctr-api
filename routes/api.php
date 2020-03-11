@@ -24,5 +24,6 @@ Route::prefix('v1')->group(function () {
     Route::post('register', 'Api\AuthController@register');
 
     Route::middleware('auth:airlock')->get('user', 'Api\AuthController@user');
+    Route::middleware('auth:airlock')->get('token/revoke', 'Api\AuthController@revokeToken');
 
 });

@@ -123,6 +123,22 @@
                     }
                 }
             }
+        },
+        "/api/v1/token/revoke": {
+            "get": {
+                "tags": [
+                    "Token"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\AuthController::revokeToken",
+                "responses": {
+                    "200": {
+                        "description": "Révoque les tokens de l'utilisateur connecté.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
         }
     }
 }

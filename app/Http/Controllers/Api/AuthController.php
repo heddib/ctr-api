@@ -201,4 +201,26 @@ class AuthController extends Controller
         return response()->json($request->user(), 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/token/revoke",
+     *     tags={"Token"},
+     *
+     *     @OA\Response(
+     *        response="200",
+     *        description="Révoque les tokens de l'utilisateur connecté.",
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *        )
+     *     )
+     * )
+     */
+    public function revokeToken(Request $request)
+    {
+        $user = Auth::user();
+        // Revoke all tokens...
+        $user->tokens()->delete();
+        return response()->json(['success' => true], 200);
+    }
+
 }
