@@ -171,7 +171,7 @@ class AuthController extends Controller
             return response()->json(['error' => ['client_name' => ['Client name is incorrect.']]], 401);
         }
 
-        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return response()->json(['error' => ['login' => ['Invalid credentials.']]], 401);
         }
 
@@ -182,9 +182,18 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Get(
+     *  @OA\Get(
      *     path="/api/v1/user",
      *     tags={"User"},
+     *
+     *     @OA\SecurityScheme(
+     *      securityScheme="bearerAuth",
+     *      in="header",
+     *      name="bearerAuth",
+     *      type="https",
+     *      scheme="bearer",
+     *      bearerFormat="JWT",
+     *     ),
      *
      *     @OA\Response(
      *        response="200",
@@ -222,5 +231,4 @@ class AuthController extends Controller
         $user->tokens()->delete();
         return response()->json(['success' => true], 200);
     }
-
 }
