@@ -139,6 +139,22 @@
                     }
                 }
             }
+        },
+        "/api/v1/maps": {
+            "get": {
+                "tags": [
+                    "Maps"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\MapsController::getMaps",
+                "responses": {
+                    "200": {
+                        "description": "Retourne un tableau des maps.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
         }
     }
 }

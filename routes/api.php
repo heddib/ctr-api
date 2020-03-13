@@ -26,4 +26,6 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:airlock')->get('user', 'Api\AuthController@user');
     Route::middleware('auth:airlock')->get('token/revoke', 'Api\AuthController@revokeToken');
 
+    Route::middleware('auth:airlock')->get('maps', 'Api\MapsController@getMaps');
+
 });
