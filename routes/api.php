@@ -28,9 +28,9 @@ Route::prefix('v1')->group(function () {
         Route::post('picks', 'Api\DraftController@getPicks');
         Route::post('addban', 'Api\DraftController@addBan');
         Route::post('addpick', 'Api\DraftController@addPick');
-        Route::post('save', 'Api\DraftController@save');
-        Route::post('spectate/save', 'Api\DraftController@saveSpectator');
-        Route::get('spectate', 'Api\DraftController@spectate');
+        // Route::post('save', 'Api\DraftController@save');
+        // Route::post('spectate/save', 'Api\DraftController@saveSpectator');
+        // Route::get('spectate', 'Api\DraftController@spectate');
     });
 
     Route::get('maps', 'Api\MapsController@getMaps');
