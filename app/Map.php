@@ -16,6 +16,14 @@ class Map extends Model
         'title', 'type', 'src',
     ];
 
+    public function bannedDrafts() {
+        return $this->belongsToMany('App\Draft', 'ban_draft_map');
+    }
+
+    public function pickedDrafts() {
+        return $this->belongsToMany('App\Draft', 'pick_draft_map');
+    }
+
     /**
      * Indicates if the model should be timestamped.
      *

@@ -9,13 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "bensampo/laravel-enum": "^1.36",
         "darkaonline/l5-swagger": "^7.0",
+        "emadadly/laravel-uuid": "^1.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/airlock": "^1.0",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/sanctum": "^2.0",
+        "laravel/tinker": "^2.0",
+        "staudenmeir/eloquent-json-relations": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

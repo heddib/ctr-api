@@ -158,7 +158,8 @@ class AuthController extends Controller
             $request->all(),
             [
                 'email' => 'required|email',
-                'password' => 'required'
+                'password' => 'required',
+                'admin' => 'required|boolean'
             ]
         );
 
@@ -176,7 +177,13 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $success['token'] =  $user->createToken($request->client_name)->plainTextToken;
+
+        if($request->admin) {
+            $success['token'] =  $user->createToken($request->client_name, ['admin'])->plainTextToken;
+            return response()->json(['success' => $success], 200);
+        }
+
+        $success['token'] =  $user->createToken($request->client_name, ['basic'])->plainTextToken;
 
         return response()->json(['success' => $success], 200);
     }
