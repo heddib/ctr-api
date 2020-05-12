@@ -65,6 +65,17 @@ class Draft extends Model
         return $this->belongsTo('App\User');
     }
 
+    // this is a recommended way to declare event handlers
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function ($draft) { // before delete() method call this
+            $draft->mapsBanned()->sync([]);
+            $draft->mapsPicked()->sync([]);
+            // do the rest of the cleanup...
+        });
+    }
+
     /**
      * Indicates if the model should be timestamped.
      *

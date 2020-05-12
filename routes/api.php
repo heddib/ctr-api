@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->get('token/revoke', 'Api\AuthController@revokeToken');
 
     // Draft
-    Route::group(['prefix' => 'draft/{uuid}/',  'middleware' => 'auth:sanctum'], function () {
+    /*Route::group(['prefix' => 'draft/{uuid}/',  'middleware' => 'auth:sanctum'], function () {
         Route::post('/', 'Api\DraftController@getDraft');
         Route::post('bans', 'Api\DraftController@getBans');
         Route::post('picks', 'Api\DraftController@getPicks');
@@ -31,10 +31,10 @@ Route::prefix('v1')->group(function () {
         // Route::post('save', 'Api\DraftController@save');
         // Route::post('spectate/save', 'Api\DraftController@saveSpectator');
         // Route::get('spectate', 'Api\DraftController@spectate');
-    });
+    });*/
 
     Route::get('maps', 'Api\MapsController@getMaps');
     Route::middleware('auth:sanctum')->get('drafts', 'Api\DraftController@getDrafts');
-    Route::middleware('auth:sanctum')->post('drafts/create', 'Api\DraftController@create');
+    Route::middleware('auth:sanctum')->post('draft/save', 'Api\DraftController@save');
 
 });

@@ -57,7 +57,7 @@ class DraftController extends Controller
      *     )
      * )
      */
-    public function create(Request $request)
+    public function save(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
@@ -65,6 +65,8 @@ class DraftController extends Controller
                 'teama' => 'required',
                 'teamb' => 'required',
                 'gamemode_type' => ['required', new EnumValue(GameModeType::class)],
+                'bans' => 'required|array',
+                'picks' => 'required|array',
                 'client_name' => 'required'
             ]
         );
@@ -91,91 +93,111 @@ class DraftController extends Controller
         $input['user_id'] = $user->id;
         $draft = Draft::create($input);
 
+        // Bans et picks
+        foreach ($input['bans'] as $ban) {
+            if(!$this->addBan($draft, $ban)) {
+                $draft->delete();
+                return response()->json(['error' => 'Something went wrong while adding a ban. (Draft will be now delete)'], 500);
+            }
+        }
+
+        foreach ($input['picks'] as $pick) {
+            if(!$this->addPick($draft, $pick)) {
+                $draft->delete();
+                return response()->json(['error' => 'Something went wrong while adding a pick. (Draft will be now delete)'], 500);
+            }
+        }
+
         $success['draft'] = $draft;
 
         return response()->json(['success' => $success], 200);
     }
 
-    public function addBan(Request $request, $uuid)
+    public function addBan(Draft $draft, $map)
     {
+        $data = array('map' => $map);
         $validator = Validator::make(
-            $request->all(),
+            $data,
             [
-                'client_name' => 'required',
                 'map' => 'required|integer'
             ]
         );
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            // return response()->json(['error' => $validator->errors()], 401);
+            return false;
         }
 
         // Ici on sécure juste pour ctr
-        if ($request->client_name != "ctr-api") {
+        /*if ($request->client_name != "ctr-api") {
             return response()->json(['error' => ['client_name' => ['Client name is incorrect.']]], 401);
-        }
+        }*/
 
-        $draft = Draft::where('uuid', $uuid)->first();
+        // $draft = Draft::where('uuid', $uuid)->first();
 
-        if(!$draft) {
+        // On assume que l'uuid est 100% sûr
+
+        /*if(!$draft) {
             return response()->json(['error' => ['draft' => ['There is no draft using this uuid.']]], 400);
-        }
+        }*/
 
-        $map = Map::find($request->map);
+        $map = Map::find($map);
 
         if(!$map) {
-            return response()->json(['error' => ['map' => ['There is no map using this id.']]], 400);
+            // return response()->json(['error' => ['map' => ['There is no map using this id.']]], 400);
+            return false;
         }
 
         // Check si la map est pas déjà ban
-        if($draft->mapsBanned()->where('title', $map->title)->first()) {
-            return response()->json(['error' => 'Map ' . $map->title . ' is already banned in this draft.'], 400);
-        }
+        /*if($draft->mapsBanned()->where('title', $map->title)->first()) {
+            // return response()->json(['error' => 'Map ' . $map->title . ' is already banned in this draft.'], 400);
+            return false;
+        }*/
 
         $draft->mapsBanned()->attach($map);
 
-        return response()->json(['success' => 'Added map ' . $map->title . ' to the ban list of draft ' . $draft->uuid], 200);
+        // return response()->json(['success' => 'Added map ' . $map->title . ' to the ban list of draft ' . $draft->uuid], 200);
+        return true;
     }
 
-    public function addPick(Request $request, $uuid)
+    public function addPick(Draft $draft, $map)
     {
+        $data = array('map' => $map);
         $validator = Validator::make(
-            $request->all(),
+            $data,
             [
-                'client_name' => 'required',
                 'map' => 'required|integer'
             ]
         );
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            //return response()->json(['error' => $validator->errors()], 401);
+            return false;
         }
 
-        // Ici on sécure juste pour ctr
-        if ($request->client_name != "ctr-api") {
-            return response()->json(['error' => ['client_name' => ['Client name is incorrect.']]], 401);
-        }
+        //$draft = Draft::where('uuid', $uuid)->first();
 
-        $draft = Draft::where('uuid', $uuid)->first();
-
-        if(!$draft) {
+        /*if(!$draft) {
             return response()->json(['error' => ['draft' => ['There is no draft using this uuid.']]], 400);
-        }
+        }*/
 
-        $map = Map::find($request->map);
+        $map = Map::find($map);
 
         if(!$map) {
-            return response()->json(['error' => ['map' => ['There is no map using this id.']]], 400);
+            // return response()->json(['error' => ['map' => ['There is no map using this id.']]], 400);
+            return false;
         }
 
         // Check si la map est pas déjà pick
-        if($draft->mapsPicked()->where('title', $map->title)->first()) {
-            return response()->json(['error' => 'Map ' . $map->title . ' is already picked in this draft.'], 400);
-        }
+        /*if($draft->mapsPicked()->where('title', $map->title)->first()) {
+            // return response()->json(['error' => 'Map ' . $map->title . ' is already picked in this draft.'], 400);
+            return false;
+        }*/
 
         $draft->mapsPicked()->attach($map);
 
-        return response()->json(['success' => 'Added map ' . $map->title . ' to the pick list of draft ' . $draft->uuid], 200);
+        // return response()->json(['success' => 'Added map ' . $map->title . ' to the pick list of draft ' . $draft->uuid], 200);
+        return true;
     }
 
     public function getDraft(Request $request, $uuid)
