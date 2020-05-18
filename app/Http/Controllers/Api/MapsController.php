@@ -28,4 +28,23 @@ class MapsController extends Controller
         return response()->json(["maps" => Map::all()], 200);
     }
 
+        /**
+     * @OA\Get(
+     *     path="/api/v1/maps/count",
+     *     tags={"Maps"},
+     *
+     *     @OA\Response(
+     *        response="200",
+     *        description="Retourne le nombre de maps disponibles.",
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *        )
+     *     )
+     * )
+     */
+     public function getCount()
+     {
+         return response()->json(count(Map::all()), 200);
+     } 
+
 }

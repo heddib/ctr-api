@@ -18,7 +18,7 @@ class DraftController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/draft/create",
+     *     path="/api/v1/draft/save",
      *     tags={"Draft"},
      *
      *     @OA\Parameter(
@@ -47,10 +47,41 @@ class DraftController extends Controller
      *           type="string"
      *        )
      *    ),
-
+     *
+     *     @OA\Parameter(
+     *        name="bans",
+     *        in="query",
+     *        required=true,
+     *        @OA\Schema(
+     *           type="array",
+     *           @OA\Items(type="integer"),
+     *        ),
+     *        style="form"
+     *    ),
+     *
+     *     @OA\Parameter(
+     *        name="picks",
+     *        in="query",
+     *        required=true,
+     *        @OA\Schema(
+     *           type="array",
+     *           @OA\Items(type="integer"),
+     *        ),
+     *        style="form"
+     *    ),
+     *
+     *     @OA\Parameter(
+     *        name="client_name",
+     *        in="query",
+     *        required=true,
+     *        @OA\Schema(
+     *           type="string"
+     *        )
+     *    ),
+     *
      *     @OA\Response(
      *        response="200",
-     *        description="Inscris une draft dans la base de données et retourne son id.",
+     *        description="Inscris une draft dans la base de données et retourne la draft si tout est bon.",
      *        @OA\MediaType(
      *            mediaType="application/json",
      *        )
@@ -109,6 +140,7 @@ class DraftController extends Controller
         }
 
         $success['draft'] = $draft;
+        $success['debug'] = GameModeType::NoBans;
 
         return response()->json(['success' => $success], 200);
     }
@@ -140,6 +172,16 @@ class DraftController extends Controller
         /*if(!$draft) {
             return response()->json(['error' => ['draft' => ['There is no draft using this uuid.']]], 400);
         }*/
+
+        if($draft->gamemode_type->value === GameModeType::NoBans) {
+            // Si on est dans la draft en mode no bans
+            if($map == -1) {
+                // $draft->mapsBanned()->attach($map);
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         $map = Map::find($map);
 

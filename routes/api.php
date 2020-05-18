@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function () {
     });*/
 
     Route::get('maps', 'Api\MapsController@getMaps');
+    Route::get('maps/count', 'Api\MapsController@getCount');
     Route::middleware('auth:sanctum')->get('drafts', 'Api\DraftController@getDrafts');
     Route::middleware('auth:sanctum')->post('draft/save', 'Api\DraftController@save');
 

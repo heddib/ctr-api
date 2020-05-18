@@ -140,6 +140,96 @@
                 }
             }
         },
+        "/api/v1/draft/save": {
+            "post": {
+                "tags": [
+                    "Draft"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\DraftController::save",
+                "parameters": [
+                    {
+                        "name": "teama",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teamb",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gamemode",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bans",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "picks",
+                        "in": "query",
+                        "required": true,
+                        "style": "form",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "client_name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Inscris une draft dans la base de données et retourne la draft si tout est bon.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/drafts": {
+            "get": {
+                "tags": [
+                    "Drafts"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\DraftController::getDrafts",
+                "responses": {
+                    "200": {
+                        "description": "Retourne un tableau des drafts.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/maps": {
             "get": {
                 "tags": [
@@ -149,6 +239,22 @@
                 "responses": {
                     "200": {
                         "description": "Retourne un tableau des maps.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/maps/count": {
+            "get": {
+                "tags": [
+                    "Maps"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\MapsController::getCount",
+                "responses": {
+                    "200": {
+                        "description": "Retourne le nombre de maps disponibles.",
                         "content": {
                             "application/json": {}
                         }
